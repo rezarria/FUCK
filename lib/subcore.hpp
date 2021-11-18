@@ -6,31 +6,26 @@
 
 namespace plana
 {
-    template<size_t T>
-    void khoi_tao_tap(TapHop<T>& tap);
+    void khoi_tao_tap(TapHop& tap);
 
-    template<size_t T>
-    void random(TapHop<T>& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode);
+    void random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode);
+    std::vector<BanGhi> simulation(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo);
 
-    template<size_t T>
-    void random(TapHop<T>& tap, BoNgauNhien cache);
+    void random(TapHop& tap, BoNgauNhien cache);
 
     // template<size_t T>
     // void chuyenDoi(const Tap& c_tap, TapHop<T>* tap);
     // không chắc...
 
-    template<size_t T>
-    std::chrono::nanoseconds dijkstra(TapHop<T>& tap, size_t dau);
+    std::chrono::nanoseconds dijkstra(TapHop& tap, size_t dau);
 };
 
-template<size_t T>
-void plana::khoi_tao_tap(TapHop<T>& tap)
+void plana::khoi_tao_tap(TapHop& tap)
 {
     reset(tap);
 }
 
-template<size_t T>
-void plana::random(TapHop<T>& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode)
+void plana::random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode)
 {
     if (!mode)
         tiLeDuong = tiLeDuong / 2;
@@ -40,8 +35,8 @@ void plana::random(TapHop<T>& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int6
 
     int64_t doDai;
 
-    for (size_t i = 0; i < soLuong; i++)
-        for (size_t j = 0; j < soLuong; j++)
+    for (size_t i = 0; i < tap.soLuong; i++)
+        for (size_t j = 0; j < tap.soLuong; j++)
             if (i != j && std::rand() % 100 < tiLeDuong)
             {
                 do
@@ -59,14 +54,26 @@ void plana::random(TapHop<T>& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int6
             }
 }
 
-template<size_t T>
-void plana::random(TapHop<T>& tap, BoNgauNhien cache)
+std::vector<BanGhi> plana::simulation(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo)
 {
-    plan::random(cache.tiLeDuong, cache.chieuDaiToiThieu, cache.chieuDaiToiDa, cache.mode);
+    std::vector<BanGhi> record;
+    for (size_t i = 0; i < soBanThu; i++, khoiDau += giaSo)
+    {
+        size_t soLuong = 0;
+        do
+            soLuong = std::rand() % cache.soLuongToiDa;
+        while (soLuong < cache.soLuongToiThieu);
+    }
+    return record;
 }
 
-template<size_t T>
-std::chrono::nanoseconds plana::dijkstra(TapHop<T>& tap, size_t dau)
+
+void plana::random(TapHop& tap, BoNgauNhien cache)
+{
+    plana::random(tap, cache.tiLeDuong, cache.chieuDaiToiThieu, cache.chieuDaiToiDa, cache.mode);
+}
+
+std::chrono::nanoseconds plana::dijkstra(TapHop& tap, size_t dau)
 {
     auto start = std::chrono::high_resolution_clock::now();
     giai(tap, dau);

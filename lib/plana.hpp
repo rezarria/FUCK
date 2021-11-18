@@ -1,24 +1,23 @@
 #pragma once
-#define _INF -1;
+#define _INF -1
 
 namespace plana
 {
-    template<size_t T>
     struct TapHop
     {
-        std::string ten[T];
-        size_t doan[T][T];
-        bool danhDau[T];
-        size_t chiPhi[T];
-        size_t denTu[T];
+        std::string* ten;
+        size_t** doan;
+        bool* danhDau;
+        size_t* chiPhi;
+        size_t* denTu;
+        size_t soLuong;
     };
 
 
 
-    template<size_t T>
-    void reset(TapHop<T>& tap)
+    void reset(TapHop& tap)
     {
-        for (size_t i = 0; i < T; i++)
+        for (size_t i = 0; i < tap.soLuong; i++)
         {
             tap.danhDau[i] = false;
             tap.chiPhi[i] = _INF;
@@ -26,22 +25,37 @@ namespace plana
         }
     }
 
-    template<size_t T>
-    void khoi_tao(TapHop<T>& tap)
+    void khoi_tao(TapHop& tap, size_t soLuong)
     {
-        reset(tap);
-        for (size_t i = 0; i < T; i++)
+        tap.chiPhi = new size_t[soLuong];
+        tap.danhDau = new bool[soLuong];
+        tap.denTu = new size_t[soLuong];
+        tap.ten = new std::string[soLuong];
+        tap.doan = new size_t * [soLuong];
+        for (size_t i = 0; i < tap.soLuong; i++)
+        {
             tap.ten[i] = std::to_string(i);
-
+            tap.doan[i] = new size_t;
+        }
     }
 
-    template<size_t T>
-    inline size_t diem_gan_nhat(TapHop<T>& tap)
+    void xoa(TapHop& tap)
+    {
+        delete[] tap.chiPhi;
+        delete[] tap.denTu;
+        delete[] tap.danhDau;
+        delete[] tap.ten;
+        for (size_t i = 0; i < tap.soLuong; i++)
+            delete tap.doan[i];
+        delete[] tap.doan;
+    }
+
+    inline size_t diem_gan_nhat(TapHop& tap)
     {
         int64_t chiPhiBeNhat;
         size_t diemBeNhat = _INF;
-        for (size_t i = 0; i < T; i++)
-            if (!tap.danhDau[i] && tap.chiPhi != _INF && tap.chiPh[i] < chiPhiBeNhat)
+        for (size_t i = 0; i < tap.soLuong; i++)
+            if (!tap.danhDau[i] && tap.chiPhi[i] != _INF && tap.chiPhi[i] < chiPhiBeNhat)
             {
                 chiPhiBeNhat = tap.chiPhi[i];
                 diemBeNhat = i;
@@ -49,14 +63,13 @@ namespace plana
         return diemBeNhat;
     }
 
-    template<size_t T>
-    inline void tinh_toan(TapHop<T>& tap, size_t diem_xet)
+    inline void tinh_toan(TapHop& tap, size_t diem_xet)
     {
-        for (size_t diem_ke = 0; diem_ke < T; ++diem_ke)
+        for (size_t diem_ke = 0; diem_ke < tap.soLuong; ++diem_ke)
             if (
                 !tap.danhDau[diem_ke] &&
-                tap.doan[diem_xet][j] != INF &&
-                tap.chiPhi[diem_ke] > tap.chiPhi[diem_xet] + tap.doan[diem_xet][diem_ke];
+                tap.doan[diem_xet][diem_ke] != INF &&
+                tap.chiPhi[diem_ke] > tap.chiPhi[diem_xet] + tap.doan[diem_xet][diem_ke]
                 )
             {
                 tap.chiPhi[diem_ke] = tap.chiPhi[diem_xet] + tap.doan[diem_xet][diem_ke];
@@ -64,13 +77,12 @@ namespace plana
             }
     }
 
-    template<size_t T>
-    void giai(TapHop<T>& tap, size_t dau)
+    void giai(TapHop& tap, size_t dau)
     {
         reset(tap);
         tap.chiPhi[dau] = 0;
         size_t diem_xet;
-        for (size_t i = 0; i < T; i++)
+        for (size_t i = 0; i < tap.soLuong; i++)
         {
             diem_xet = diem_gan_nhat(tap);
             if (diem_xet == _INF)
@@ -80,8 +92,7 @@ namespace plana
         }
     }
 
-    template<size_t T>
-    void truy_vet(TapHop<T>& tap, size_t dich)
+    void truy_vet(TapHop& tap, size_t dich)
     {
         if (tap.denTu[dich] != _INF)
         {
