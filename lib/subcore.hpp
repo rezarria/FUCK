@@ -19,7 +19,8 @@ namespace plana
     // void chuyenDoi(const Tap& c_tap, TapHop<T>* tap);
     // không chắc...
 
-    
+    template<size_t T>
+    std::chrono::nanoseconds dijkstra(TapHop<T>& tap, size_t dau);
 };
 
 template<size_t T>
@@ -64,6 +65,13 @@ void plana::random(TapHop<T>& tap, BoNgauNhien cache)
     plan::random(cache.tiLeDuong, cache.chieuDaiToiThieu, cache.chieuDaiToiDa, cache.mode);
 }
 
-
+template<size_t T>
+std::chrono::nanoseconds plana::dijkstra(TapHop<T>& tap, size_t dau)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+    giai(tap, dau);
+    auto stop = std::chrono::high_resolution_clock::now();
+    return stop - start;
+}
 
 
