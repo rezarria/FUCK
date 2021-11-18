@@ -6,7 +6,6 @@
 
 namespace plana
 {
-    void khoi_tao_tap(TapHop& tap);
 
     void random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode);
     std::vector<BanGhi> simulation(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo);
@@ -17,13 +16,8 @@ namespace plana
     // void chuyenDoi(const Tap& c_tap, TapHop<T>* tap);
     // không chắc...
 
-    std::chrono::nanoseconds dijkstra(TapHop& tap, size_t dau);
+    std::chrono::nanoseconds dijkstra_runtime(TapHop& tap, size_t dau);
 };
-
-void plana::khoi_tao_tap(TapHop& tap)
-{
-    reset(tap);
-}
 
 void plana::random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode)
 {
@@ -49,7 +43,6 @@ void plana::random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t
                     case DON_CHIEU:
                         tap.doan[i][j] = doDai;
                         break;
-
                 }
             }
 }
@@ -57,26 +50,27 @@ void plana::random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t
 std::vector<BanGhi> plana::simulation(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo)
 {
     std::vector<BanGhi> record;
+    TapHop tap;
     for (size_t i = 0; i < soBanThu; i++, khoiDau += giaSo)
     {
-        size_t soLuong = 0;
-        do
-            soLuong = std::rand() % cache.soLuongToiDa;
-        while (soLuong < cache.soLuongToiThieu);
+        cache.soLuongToiDa = cache.soLuongToiThieu = khoiDau;
+        khoi_tao(tap, khoiDau);
+        random(tap, cache);
+        record.push_back({ khoiDau, dijkstra_runtime(tap, 0) });
+        xoa(tap);
     }
     return record;
 }
-
 
 void plana::random(TapHop& tap, BoNgauNhien cache)
 {
     plana::random(tap, cache.tiLeDuong, cache.chieuDaiToiThieu, cache.chieuDaiToiDa, cache.mode);
 }
 
-std::chrono::nanoseconds plana::dijkstra(TapHop& tap, size_t dau)
+std::chrono::nanoseconds plana::dijkstra_runtime(TapHop& tap, size_t dau)
 {
     auto start = std::chrono::high_resolution_clock::now();
-    giai(tap, dau);
+    dijkstra(tap, dau);
     auto stop = std::chrono::high_resolution_clock::now();
     return stop - start;
 }

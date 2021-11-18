@@ -27,6 +27,7 @@ namespace plana
 
     void khoi_tao(TapHop& tap, size_t soLuong)
     {
+        tap.soLuong = soLuong;
         tap.chiPhi = new size_t[soLuong];
         tap.danhDau = new bool[soLuong];
         tap.denTu = new size_t[soLuong];
@@ -77,7 +78,7 @@ namespace plana
             }
     }
 
-    void giai(TapHop& tap, size_t dau)
+    void dijkstra(TapHop& tap, size_t dau)
     {
         reset(tap);
         tap.chiPhi[dau] = 0;
