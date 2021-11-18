@@ -9,15 +9,16 @@ namespace plana
 
     void random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode);
     std::vector<BanGhi> simulation(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo);
-
     void random(TapHop& tap, BoNgauNhien cache);
-
-    // template<size_t T>
-    // void chuyenDoi(const Tap& c_tap, TapHop<T>* tap);
-    // không chắc...
-
     std::chrono::nanoseconds dijkstra_runtime(TapHop& tap, size_t dau);
+    void hien_thoi_gian_chay(const std::vector<BanGhi>& record);
 };
+
+void plana::hien_thoi_gian_chay(const std::vector<BanGhi>& record)
+{
+    for (std::vector<BanGhi>::const_iterator i = record.begin(); i != record.end(); i++)
+        std::cout << std::setw(5) << i->soLuong << " : " << i->thoiGian.count() << "ns" << std::endl;
+}
 
 void plana::random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode)
 {

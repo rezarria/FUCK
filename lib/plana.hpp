@@ -22,6 +22,8 @@ namespace plana
             tap.danhDau[i] = false;
             tap.chiPhi[i] = _INF;
             tap.denTu[i] = EOF;
+            for (size_t j = 0; j < tap.soLuong; j++)
+                tap.doan[i][j] = INF;
         }
     }
 
@@ -36,8 +38,9 @@ namespace plana
         for (size_t i = 0; i < tap.soLuong; i++)
         {
             tap.ten[i] = std::to_string(i);
-            tap.doan[i] = new size_t;
+            tap.doan[i] = new size_t[tap.soLuong];
         }
+        reset(tap);
     }
 
     void xoa(TapHop& tap)
@@ -47,7 +50,7 @@ namespace plana
         delete[] tap.danhDau;
         delete[] tap.ten;
         for (size_t i = 0; i < tap.soLuong; i++)
-            delete tap.doan[i];
+            delete[] tap.doan[i];
         delete[] tap.doan;
     }
 

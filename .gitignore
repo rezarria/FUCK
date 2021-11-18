@@ -5,3 +5,7 @@ main.exe
 .gitignore
 input.txt
 main
+build
+.vscode
+CMakeLists.txt
+settings.json

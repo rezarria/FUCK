@@ -90,7 +90,8 @@ Diem::Diem(int64_t chiPhi, std::string ten)
 
 Diem& Diem::noi(Diem& diem, int64_t khoangCach)
 {
-    doanDuong[&diem] = khoangCach;
+    if (doanDuong.find(&diem) != doanDuong.end())
+        doanDuong[&diem] = khoangCach;
     return *this;
 }
 

@@ -163,6 +163,7 @@ void Core::xoa_tap()
 
 void Core::khoi_tao_tap(size_t soLuong)
 {
+	_tmp::id = 0;
 	if (tap.size())
 		xoa_tap();
 	tap.reserve(soLuong);
