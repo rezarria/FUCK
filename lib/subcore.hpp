@@ -9,6 +9,7 @@ namespace plana
 
     void random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, char mode);
     std::vector<BanGhi> simulation(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo);
+    std::vector<BanGhi> simulation_2(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo);
     void random(TapHop& tap, BoNgauNhien cache);
     std::chrono::nanoseconds dijkstra_runtime(TapHop& tap, size_t dau);
     void hien_thoi_gian_chay(const std::vector<BanGhi>& record);
@@ -59,6 +60,22 @@ std::vector<BanGhi> plana::simulation(BoNgauNhien cache, size_t soBanThu, size_t
         random(tap, cache);
         record.push_back({ khoiDau, dijkstra_runtime(tap, 0) });
         xoa(tap);
+    }
+    return record;
+}
+
+// khong khoi tao lai du lieu = speed, chu y 16GB RAM da day voi simulation_2(), y hon 16GB chay simulation()
+std::vector<BanGhi> plana::simulation_2(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo)
+{
+    std::vector<BanGhi> record;
+    TapHop tap;
+    khoi_tao(tap, (soBanThu - 1) * giaSo + khoiDau);
+    for (size_t i = 0; i < soBanThu; i++, khoiDau += giaSo)
+    {
+        tap.soLuong = khoiDau;
+        reset(tap);
+        random(tap, cache);
+        record.push_back({ khoiDau, dijkstra_runtime(tap, 0) });
     }
     return record;
 }
