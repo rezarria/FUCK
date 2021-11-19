@@ -20,7 +20,7 @@ struct BoNgauNhien
 	int64_t chieuDaiToiDa;
 	size_t soLuongToiThieu;
 	size_t soLuongToiDa;
-	char mode;
+	int mode;
 	void hien();
 	void nhap();
 };
@@ -35,7 +35,7 @@ protected:
 	bool running;
 	void xoa_tap();
 	void khoi_tao_tap(size_t soLuong);
-	void random(int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, size_t soLuongToiThieu, size_t soLuongToiDa, char mode);
+	void random(int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, size_t soLuongToiThieu, size_t soLuongToiDa, int mode);
 	void random(BoNgauNhien cache);
 	void dat_dich(size_t n);
 	void tinh_toan_chi_phi();
@@ -176,7 +176,7 @@ void Core::random(BoNgauNhien cache)
 	random(cache.tiLeDuong, cache.chieuDaiToiThieu, cache.chieuDaiToiDa, cache.soLuongToiThieu, cache.soLuongToiDa, cache.mode);
 }
 
-void Core::random(int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, size_t soLuongToiThieu, size_t soLuongToiDa, char mode)
+void Core::random(int tiLeDuong, int64_t chieuDaiToiThieu, int64_t chieuDaiToiDa, size_t soLuongToiThieu, size_t soLuongToiDa, int mode)
 {
 	if (!mode)
 		tiLeDuong = tiLeDuong / 2;
