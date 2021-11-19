@@ -56,7 +56,7 @@ namespace plana
 
     inline size_t diem_gan_nhat(TapHop& tap)
     {
-        int64_t chiPhiBeNhat;
+        size_t chiPhiBeNhat = _INF;
         size_t diemBeNhat = _INF;
         for (size_t i = 0; i < tap.soLuong; i++)
             if (!tap.danhDau[i] &&
