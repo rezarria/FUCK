@@ -49,6 +49,7 @@ void plana::random(TapHop& tap, int tiLeDuong, int64_t chieuDaiToiThieu, int64_t
             }
 }
 
+// bộ nhớ tăng từ từ.
 std::vector<BanGhi> plana::simulation(BoNgauNhien cache, size_t soBanThu, size_t khoiDau, size_t giaSo)
 {
     std::vector<BanGhi> record;

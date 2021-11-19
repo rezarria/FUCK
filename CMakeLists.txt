@@ -3,11 +3,11 @@ project(main VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
-
+find_package (Threads)
 add_executable(main main_min.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-target_link_libraries(main pthread)
+target_link_libraries(main Threads::Threads)

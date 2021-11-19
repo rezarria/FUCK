@@ -59,7 +59,9 @@ namespace plana
         int64_t chiPhiBeNhat;
         size_t diemBeNhat = _INF;
         for (size_t i = 0; i < tap.soLuong; i++)
-            if (!tap.danhDau[i] && tap.chiPhi[i] != _INF && tap.chiPhi[i] < chiPhiBeNhat)
+            if (!tap.danhDau[i] &&
+                tap.chiPhi[i] != _INF &&
+                tap.chiPhi[i] < chiPhiBeNhat)
             {
                 chiPhiBeNhat = tap.chiPhi[i];
                 diemBeNhat = i;
@@ -70,15 +72,18 @@ namespace plana
     inline void tinh_toan(TapHop& tap, size_t diem_xet)
     {
         for (size_t diem_ke = 0; diem_ke < tap.soLuong; ++diem_ke)
+        {
+            size_t chiPhiDuKien = tap.chiPhi[diem_xet] + tap.doan[diem_xet][diem_ke];
             if (
                 !tap.danhDau[diem_ke] &&
                 tap.doan[diem_xet][diem_ke] != INF &&
-                tap.chiPhi[diem_ke] > tap.chiPhi[diem_xet] + tap.doan[diem_xet][diem_ke]
+                tap.chiPhi[diem_ke] > chiPhiDuKien
                 )
             {
-                tap.chiPhi[diem_ke] = tap.chiPhi[diem_xet] + tap.doan[diem_xet][diem_ke];
+                tap.chiPhi[diem_ke] = chiPhiDuKien;
                 tap.denTu[diem_ke] = diem_xet;
             }
+        }
     }
 
     void dijkstra(TapHop& tap, size_t dau)

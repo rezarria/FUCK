@@ -18,7 +18,7 @@ void job(std::vector<BanGhi>* record, size_t soLuong, size_t batDau, size_t giaS
 
 void run(const int core, const size_t soLuong, size_t batDau, const size_t giaSo)
 {
-    std::vector<BanGhi> record[core];
+    std::vector<BanGhi> * record  = new std::vector<BanGhi>[core];
     std::vector<std::thread*> thread;
     thread.reserve(core);
     for (size_t i = 0; i < core; ++i)
@@ -31,7 +31,7 @@ void run(const int core, const size_t soLuong, size_t batDau, const size_t giaSo
         thread[i]->join();
     for (size_t i = 0; i < core; ++i)
         plana::hien_thoi_gian_chay(record[i]);
-
+    delete[] record;
 }
 
 int main()
